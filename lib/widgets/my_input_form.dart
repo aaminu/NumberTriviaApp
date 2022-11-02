@@ -10,10 +10,16 @@ class MyInputForm extends StatefulWidget {
 }
 
 class _MyInputFormState extends State<MyInputForm> {
-  final _formKey = GlobalKey<FormState>();
-
   static const double _hPadding = 10.0;
   static const double _vPadding = 5.0;
+  final _formKey = GlobalKey<FormState>();
+  final _myController = TextEditingController();
+
+  @override
+  void dispose() {
+    _myController.dispose();
+    super.dispose();
+  }
 
   String? numbersValidator(String? value) {
     if (value == null || value.isEmpty || num.tryParse(value) == null) {
@@ -31,7 +37,6 @@ class _MyInputFormState extends State<MyInputForm> {
     final double availableWidth = widget.width - _hPadding;
 
     return Container(
-      width: widget.width,
       padding: const EdgeInsets.symmetric(
         horizontal: _hPadding,
         vertical: _vPadding,
@@ -43,6 +48,7 @@ class _MyInputFormState extends State<MyInputForm> {
             SizedBox(
               width: availableWidth * .60,
               child: TextFormField(
+                controller: _myController,
                 validator: numbersValidator,
                 maxLength: 4,
                 decoration: const InputDecoration(
@@ -57,7 +63,10 @@ class _MyInputFormState extends State<MyInputForm> {
               width: availableWidth * .30,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {}
+                  if (_formKey.currentState!.validate()) {
+                    print(_myController.text); // Use text from controller here
+                    _formKey.currentState!.reset();
+                  }
                 },
                 child: const Text("Go"),
               ),
