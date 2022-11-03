@@ -14,12 +14,15 @@ class _TriviaScreenState extends State<TriviaScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Trivia Home"),
-      ),
-      body: MyInputForm(
-        width: width,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Trivia Home"),
+        ),
+        body: MyInputForm(
+          width: width,
+        ),
       ),
     );
   }

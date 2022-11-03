@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/numbers.dart';
 
 class MyInputForm extends StatefulWidget {
   const MyInputForm({super.key, required this.width});
@@ -14,6 +17,7 @@ class _MyInputFormState extends State<MyInputForm> {
   static const double _vPadding = 5.0;
   final _formKey = GlobalKey<FormState>();
   final _myController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -30,6 +34,30 @@ class _MyInputFormState extends State<MyInputForm> {
     }
 
     return null;
+  }
+
+  Future<void> buttonPressed(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<Numbers>(context, listen: false)
+          .getNumber(_myController.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            "Request failed, please try again 😁",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -49,6 +77,7 @@ class _MyInputFormState extends State<MyInputForm> {
               width: availableWidth * .60,
               child: TextFormField(
                 controller: _myController,
+                keyboardType: TextInputType.number,
                 validator: numbersValidator,
                 maxLength: 4,
                 decoration: const InputDecoration(
@@ -59,18 +88,25 @@ class _MyInputFormState extends State<MyInputForm> {
             SizedBox(
               width: availableWidth * .05,
             ),
-            SizedBox(
-              width: availableWidth * .30,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    print(_myController.text); // Use text from controller here
-                    _formKey.currentState!.reset();
-                  }
-                },
-                child: const Text("Go"),
-              ),
-            )
+            _isLoading
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 40.0),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  )
+                : SizedBox(
+                    width: availableWidth * .30,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          buttonPressed(context);
+                          _formKey.currentState!.reset();
+                        }
+                      },
+                      child: const Text("Go"),
+                    ),
+                  )
           ],
         ),
       ),
