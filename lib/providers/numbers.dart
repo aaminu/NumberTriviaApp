@@ -15,8 +15,7 @@ class Numbers with ChangeNotifier {
     final url = Uri.http("numbersapi.com", "/$number");
     try {
       final response = await http.get(url);
-      final result = response.body; // Response returns text
-      print(result);
+      result = response.body; // Response returns text
       notifyListeners();
     } catch (error) {
       rethrow;
