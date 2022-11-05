@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/my_input_form.dart';
+import '../widgets/result_viewer.dart';
 import '../providers/numbers.dart';
 
 class TriviaScreen extends StatefulWidget {
@@ -22,29 +23,31 @@ class _TriviaScreenState extends State<TriviaScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("Trivia Home"),
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: height * .20,
-              child: MyInputForm(
-                width: width,
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * .20,
+                child: MyInputForm(
+                  width: width,
+                ),
               ),
-            ),
-            SizedBox(
-              height: height * 0.1,
-            ),
-            Consumer<Numbers>(
-              builder: (ctx, value, _) {
-                return value.result == null
-                    ? const Text(
-                        "Hey you, what trivia will you learn today? Enter a number to get started")
-                    : Text(value.result as String);
-              },
-            )
-          ],
+              SizedBox(
+                height: height * 0.1,
+              ),
+              Consumer<Numbers>(
+                builder: (ctx, value, _) {
+                  return ResultViewer(value.numberInput,
+                      text: value.result, index: value.count % 2);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

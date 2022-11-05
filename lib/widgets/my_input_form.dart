@@ -48,7 +48,7 @@ class _MyInputFormState extends State<MyInputForm> {
         const SnackBar(
           behavior: SnackBarBehavior.floating,
           content: Text(
-            "Request failed, please try again 😁",
+            "Request failed, please try again 😣",
             textAlign: TextAlign.center,
           ),
         ),
