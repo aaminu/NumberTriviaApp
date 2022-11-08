@@ -14,7 +14,7 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    final historyValue = Provider.of<Numbers>(context).historyResults;
+    final historyValue = Provider.of<Numbers>(context).history;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trivia History"),

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Numbers with ChangeNotifier {
-  static const arrayLength = 30;
+  static const arrayLength = 20;
   int count = 0;
   String? numberInput;
   String result =
       "Hey you, what trivia will you learn today? Enter a number to get started 😃";
-  List<List<String>> historyResults = [];
+  final List<List<String>> _historyResults = [];
 
   List<List<String>> get history {
-    return [...historyResults];
+    return [..._historyResults];
   }
 
   Future<void> getNumber(String number) async {
@@ -22,8 +22,12 @@ class Numbers with ChangeNotifier {
           response.body.substring(number.length + 1); // Response returns text
       numberInput = number;
       count += 1;
-      if (historyResults.length + 1 <= arrayLength) {
-        historyResults.insert(0, [dateTime, number, result]);
+      //Add to history but limit to 20 search history
+      if (_historyResults.length + 1 <= arrayLength) {
+        _historyResults.insert(0, [dateTime, number, result]);
+      } else {
+        _historyResults.removeLast();
+        _historyResults.insert(0, [dateTime, number, result]);
       }
       notifyListeners();
     } catch (error) {
