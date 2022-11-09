@@ -13,6 +13,11 @@ class Numbers with ChangeNotifier {
     return [..._historyResults];
   }
 
+  void deleteHistoryItem(String id) {
+    _historyResults.removeWhere((element) => element[0] == id);
+    notifyListeners();
+  }
+
   Future<void> getNumber(String number) async {
     String dateTime = DateTime.now().toString();
     final url = Uri.http("numbersapi.com", "/$number");

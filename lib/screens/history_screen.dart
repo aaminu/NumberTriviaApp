@@ -22,8 +22,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: ListView.builder(
         itemBuilder: (context, index) {
           return HistoryCard(
-            historyValue: historyValue,
-            index: index,
+            id: historyValue[index][0],
+            number: historyValue[index][1],
+            text: historyValue[index][2],
           );
         },
         itemCount: historyValue.length,
