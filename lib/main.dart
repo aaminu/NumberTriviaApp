@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './screens/home_page.dart';
 import './providers/numbers.dart';
+import './providers/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,19 +14,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Numbers(),
-      child: MaterialApp(
-        title: 'Numbers Trivia App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 12, 102, 176),
-            secondary: const Color.fromARGB(255, 8, 65, 112),
-            background: const Color.fromARGB(255, 205, 195, 225),
-          ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Numbers(),
         ),
-        home: const MyHomePage(),
+        ChangeNotifierProvider(
+          create: (_) => Settings(),
+        )
+      ],
+      child: Consumer<Settings>(
+        builder: (context, settings, child) => MaterialApp(
+          title: 'Numbers Trivia App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: settings.colorValue,
+              secondary: const Color.fromARGB(255, 8, 65, 112),
+              background: const Color.fromARGB(255, 205, 195, 225),
+            ),
+          ),
+          home: const MyHomePage(),
+        ),
       ),
     );
   }
