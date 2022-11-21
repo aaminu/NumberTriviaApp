@@ -1,7 +1,9 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/numbers.dart';
+import '../providers/settings.dart';
 import '../widgets/history_card.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final historyValue = Provider.of<Numbers>(context).history;
+    final historyCount = Provider.of<Settings>(context).historyCount;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trivia History"),
@@ -27,7 +30,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             text: historyValue[index][2],
           );
         },
-        itemCount: historyValue.length,
+        itemCount: min(historyCount, historyValue.length),
       ),
     );
   }

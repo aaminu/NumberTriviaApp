@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/theme_color_selector.dart';
+import '../widgets/history_count_selector.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -16,7 +17,12 @@ class _SettingScreenState extends State<SettingScreen> {
           title: const Text("App Settings"),
         ),
         body: ListView(
-          children: const [SizedBox(), ThemeColorSelector(), Divider()],
+          children: const [
+            SizedBox(),
+            ThemeColorSelector(),
+            Divider(),
+            HistoryCountSelector(),
+          ],
         ));
   }
 }
