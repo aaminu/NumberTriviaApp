@@ -18,7 +18,7 @@ class _HistoryCountSelectorState extends State<HistoryCountSelector> {
   void didChangeDependencies() {
     if (!_isdeclared) {
       _dropdownValue =
-          Provider.of<Settings>(context, listen: false).historyCount;
+          Provider.of<SettingsProvider>(context, listen: false).historyCount;
     }
 
     _isdeclared = true;
@@ -28,7 +28,8 @@ class _HistoryCountSelectorState extends State<HistoryCountSelector> {
   void updateHistoryCount(BuildContext context, int? value) {
     setState(() {
       _dropdownValue = value as int;
-      Provider.of<Settings>(context, listen: false).changeHistoryCount(value);
+      Provider.of<SettingsProvider>(context, listen: false)
+          .changeHistoryCount(value);
     });
   }
 

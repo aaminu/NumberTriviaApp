@@ -17,7 +17,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final historyValue = Provider.of<Numbers>(context).history;
-    final historyCount = Provider.of<Settings>(context).historyCount;
+    final historyCount = Provider.of<SettingsProvider>(context).historyCount;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trivia History"),

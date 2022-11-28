@@ -65,7 +65,7 @@ class _ThemeColorSelectorState extends State<ThemeColorSelector> {
                     onPressed: () {
                       setState(() {
                         currentColor = colorPicker;
-                        Provider.of<Settings>(context, listen: false)
+                        Provider.of<SettingsProvider>(context, listen: false)
                             .changeColor(colorPicker);
                       });
                       Navigator.of(context).pop();
