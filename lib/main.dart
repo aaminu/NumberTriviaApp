@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import './screens/home_page.dart';
 import './providers/numbers.dart';
 import './providers/settings.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -30,14 +33,16 @@ class _MyAppState extends State<MyApp> {
       future: fetchSettings(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          FlutterNativeSplash.remove();
           return MaterialAppWidget(settingsProvider: settingsProvider);
         }
         return Container(
           color: Colors.white,
           child: const Center(
-              child: CircularProgressIndicator(
-            color: Color(0xFF0C66B0),
-          )),
+            child: CircularProgressIndicator(
+              color: Color(0xFF0C66B0),
+            ),
+          ),
         );
       },
     );
@@ -70,8 +75,6 @@ class MaterialAppWidget extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: settings.colorValue,
-              secondary: const Color.fromARGB(255, 8, 65, 112),
-              background: const Color.fromARGB(255, 205, 195, 225),
             ),
           ),
           home: const MyHomePage(),
